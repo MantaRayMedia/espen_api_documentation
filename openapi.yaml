@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: ESPEN API
+  version: 1.0.0
+  contact:
+    email: espensupport@who.int
+servers:
+  - url: https://espenadmin-staging.herokuapp.com/api
+    description: Staging server
+  - url: https://admin.espen.afro.who.int/api
+    description: Production server
+paths:
+  /maps:
+    get:
+      security:
+        - api_key: []
+      description: Returns maps based on various parameters
+      responses:
+        '200':
+          description: A single ESPEN map, including categories and GeoJSON
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+    parameters:
+      - name: disease
+        in: query
+        description: The disease to map (lf, loa, oncho, sch, sth, trachoma, wash, coendemicity)
+        required: true
+        schema:
+          type: string
+      - name: level
+        in: query
+        description: The level to map (iu, sitelevel)
+        required: true
+        schema:
+          type: string
+      - name: iso2
+        in: query
+        description: The iso2 code of the country
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: The map type (endemicity, mda_pc_coverage, mda_pc_rounds, impact_assessment, mapping_surveys, sanitation, water)
+        required: true
+        schema:
+          type: string
+      - name: subtype
+        in: query
+        description: The map subtype (too many to list here)
+        required: true
+        schema:
+          type: string
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
